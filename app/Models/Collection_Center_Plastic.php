@@ -18,5 +18,6 @@ class Collection_Center_Plastic extends Model
         'manager_address',
         'manager_picture',
         'manager_latitude',
-        'manager_longitude'];
+        'manager_longitude'
+    ];
 }
