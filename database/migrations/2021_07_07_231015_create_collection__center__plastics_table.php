@@ -14,7 +14,7 @@ class CreateCollectionCenterPlasticsTable extends Migration
     public function up()
     {
         Schema::create('collection__center__plastics', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('manager_name');
             $table->string('manager_last_name');
             $table->string('manager_email');
@@ -23,8 +23,9 @@ class CreateCollectionCenterPlasticsTable extends Migration
             $table->string('manager_neighborhood');
             $table->string('manager_address');
             $table->string('manager_picture');
-            $table->string('manager_latitude');
-            $table->string('manager_longitude');
+            $table->float('manager_latitude');
+            $table->float('manager_longitude');
+            $table->timestamps();
         });
     }
 
