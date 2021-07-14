@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Collection_Center_PlasticController;
 use App\Models\Collection_Center_Plastic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,8 @@ use Illuminate\Support\Facades\Route;
    return $request->user();
 });*/
 
-Route::get('/collection_center_plastic', function (){
-   return Collection_Center_Plastic::all();
-});
-
-Route::get('/collection_center_plastic/{id}', function ($id){
-    return Collection_Center_Plastic::find($id);
-});
-
+Route::get('/collection_center_plastics', [Collection_Center_PlasticController::class, 'index']);
+Route::get('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'show']);
+Route::post('/collection_center_plastics', [Collection_Center_PlasticController::class, 'store']);
+Route::put('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'update']);
+Route::delete('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'delete']);
