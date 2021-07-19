@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeliveryController;
 use App\Models\Collection_Center_Plastic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,11 @@ Route::get('/owners/{owner}', [OwnerController::class, 'show']);
 Route::post('/owners', [OwnerController::class, 'store']);
 Route::put('/owners/{owner}', [OwnerController::class, 'update']);
 Route::delete('/owners/{owner}', [OwnerController::class, 'delete']);
+
+//RUTAS PARA LA ENTREGA
+Route::get('delivery', [DeliveryController::class, 'index']);
+Route::get('delivery/{delivery}', [DeliveryController::class, 'show']);
+Route::post('delivery', [DeliveryController::class, 'store']);
+Route::put('delivery/{delivery}', [DeliveryController::class, 'update']);
+Route::delete('delivery/{delivery}', [DeliveryController::class, 'delete']);
 
