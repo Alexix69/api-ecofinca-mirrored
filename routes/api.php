@@ -1,12 +1,10 @@
 <?php
-
-
-use App\Http\Controllers\DeliveryController;
-
-use App\Http\Controllers\Collection_Center_PlasticController;
-
 //use App\Models\Collection_Center_Plastic;
 //use Illuminate\Http\Request;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\Collection_Center_PlasticController;
+use App\Models\Collection_Center_Plastic;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OwnerController;
 
@@ -26,14 +24,13 @@ use App\Http\Controllers\OwnerController;
    return $request->user();
 });*/
 
-//RUTAS CENTRO ACOPIO
+// RUTAS CENTRO DE ACOPIO
 Route::get('/collection_center_plastics', [Collection_Center_PlasticController::class, 'index']);
 Route::get('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'show']);
 Route::post('/collection_center_plastics', [Collection_Center_PlasticController::class, 'store']);
 Route::put('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'update']);
 Route::delete('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'delete']);
-//
-//
+
 //Route::get('/collection_center_plastic', function (){
 //   return Collection_Center_Plastic::all();
 //});
@@ -48,7 +45,6 @@ Route::get('/owners/{owner}', [OwnerController::class, 'show']);
 Route::post('/owners', [OwnerController::class, 'store']);
 Route::put('/owners/{owner}', [OwnerController::class, 'update']);
 Route::delete('/owners/{owner}', [OwnerController::class, 'delete']);
-
 
 //RUTAS PARA LA ENTREGA
 Route::get('deliveries', [DeliveryController::class, 'index']);
