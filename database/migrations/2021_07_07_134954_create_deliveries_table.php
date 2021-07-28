@@ -18,8 +18,9 @@ class CreateDeliveriesTable extends Migration
             $table->text('description');
             $table->integer('quantity');
             $table->string('picture');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->float('latitude');
+            $table->float('longitude');
+            $table->string('state');
             $table->timestamps();
         });
     }

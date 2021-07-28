@@ -14,8 +14,8 @@ class AddProvinceIdColumnCanton extends Migration
     public function up()
     {
         Schema::table('cantons', function (Blueprint $table) {
-            $table->unsignedBigInteger('province_id');
-            $table->foreign('province_id')->references('id')->on('provincias')->onDelete('restrict');
+            $table->unsignedBigInteger('provincia_id');
+            $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('restrict');
         });
     }
 

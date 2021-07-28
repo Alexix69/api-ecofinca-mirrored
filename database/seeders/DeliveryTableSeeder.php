@@ -27,7 +27,8 @@ class DeliveryTableSeeder extends Seeder
                 'quantity' => $faker->numberBetween(1,30),
                 'picture' => $faker->url,
                 'latitude'  => $faker->latitude,
-                'longitude' => $faker->longitude
+                'longitude' => $faker->longitude,
+                'state' => 'pendiente'
             ]);
         }
     }
