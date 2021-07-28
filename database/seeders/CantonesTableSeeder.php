@@ -22,6 +22,7 @@ class CantonesTableSeeder extends Seeder
         for ($i = 0; $i < 57; $i++) {
             Canton::create([
                 'nombre' => $faker->sentence,
+                'provincia_id' => $faker->numberBetween(1, 27)
             ]);
         }
     }

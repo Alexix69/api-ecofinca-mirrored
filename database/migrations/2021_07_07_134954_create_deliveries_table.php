@@ -20,6 +20,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('picture');
             $table->float('latitude');
             $table->float('longitude');
+            $table->string('state');
             $table->timestamps();
         });
     }
