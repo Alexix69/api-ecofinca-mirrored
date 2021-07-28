@@ -17,7 +17,7 @@ class DeliveryController extends Controller
     }
     public function store(Request $request)
     {
-        $delivery = Owner::create($request->all());
+        $delivery = Delivery::create($request->all());
         return response()->json($delivery, 201);
     }
     public function update(Request $request, Delivery $delivery)
