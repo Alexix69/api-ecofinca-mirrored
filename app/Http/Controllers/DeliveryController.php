@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Delivery;
+use App\Http\Resources\Delivery as DeliveryResource;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -13,11 +14,11 @@ class DeliveryController extends Controller
     }
     public function show(Delivery $delivery)
     {
-        return $delivery;
+        return response()->json(new DeliveryResource($delivery), 200) ;
     }
     public function store(Request $request)
     {
-        $delivery = Owner::create($request->all());
+        $delivery = Delivery::create($request->all());
         return response()->json($delivery, 201);
     }
     public function update(Request $request, Delivery $delivery)
