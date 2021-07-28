@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('neighborhood');
             $table->string('address');
             $table->string('image');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->float('latitude');
+            $table->float('longitude');
             $table->rememberToken();
             $table->timestamps();
         });
