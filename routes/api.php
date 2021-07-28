@@ -32,3 +32,21 @@ Route::group(['/middleware' => ['jwt.verify']], function () {
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
     Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
 });
+//RUTAS PARA las provincias
+Route::get('provincias', 'ProvinciaController@index');
+Route::get('provincias/{provincia}', 'ProvinciaController@show');
+Route::post('provincias', 'ProvinciaController@store');
+Route::put('provincias/{provincia}', 'ProvinciaController@update');
+Route::delete('provincias/{provincia}', 'ProvinciaController@delete');
+//RUTAS PARA Las parroquias
+Route::get('parroquias', 'ParroquiaController@index');
+Route::get('parroquias/{parroquia}', 'ParroquiaController@show');
+Route::post('parroquias', 'ParroquiaController@store');
+Route::put('parroquias/{parroquia}', 'ParroquiaController@update');
+Route::delete('parroquias/{parroquia}', 'ParroquiaController@delete');
+//RUTAS PARA Los cantones
+Route::get('cantones', 'CantonController@index');
+Route::get('cantones/{canton}', 'CantonController@show');
+Route::post('cantones', 'CantonController@store');
+Route::put('cantones/{canton}', 'CantonController@update');
+Route::delete('cantones/{canton}', 'CantonController@delete');
