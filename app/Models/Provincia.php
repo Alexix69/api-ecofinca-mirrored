@@ -9,8 +9,8 @@ class Provincia extends Model
 {
     protected $fillable = ['nombre'];
 
-    public function canton()
+    public function cantones()
     {
-        return $this->hasMany('App\Model\Canton');
+        return $this->hasMany('App\Models\Canton');
     }
 }

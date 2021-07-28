@@ -1,12 +1,8 @@
 <?php
-//use App\Models\Collection_Center_Plastic;
-//use Illuminate\Http\Request;
+
 use App\Http\Controllers\DeliveryController;
-use App\Http\Controllers\Collection_Center_PlasticController;
-use App\Models\Collection_Center_Plastic;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OwnerController;
 
 /*
 |--------------------------------------------------------------------------
