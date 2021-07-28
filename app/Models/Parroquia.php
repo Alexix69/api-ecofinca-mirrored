@@ -13,4 +13,9 @@ class Parroquia extends Model
     {
         return $this->belongsTo('App\Models\Canton');
     }
+
+    public function users()
+    {
+        return $this->hasMany('App\Models\User');
+    }
 }
