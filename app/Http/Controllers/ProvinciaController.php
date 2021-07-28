@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\ProvinciaCollection;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 
@@ -8,7 +9,7 @@ class ProvinciaController extends Controller
 {
     public function index()
     {
-        return Provincia::all();
+        return response()->json(new ProvinciaCollection(Provincia::all()), 200) ;
     }
     public function show(Provincia $provincia)
     {

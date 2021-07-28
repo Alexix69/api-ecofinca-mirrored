@@ -16,7 +16,7 @@ class Delivery extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('d-m-Y'),
             'quantity' => $this->quantity,
             // falta agregar centro de acopio
             'state' => $this->state

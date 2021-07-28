@@ -14,6 +14,8 @@ class Provincia extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->nombre,
+        ];
     }
 }

@@ -14,6 +14,11 @@ class Canton extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->nombre,
+            'provincia_id' => $this->provincia->id,
+            'provincia_name' => $this->provincia->nombre
+        ];
     }
 }
