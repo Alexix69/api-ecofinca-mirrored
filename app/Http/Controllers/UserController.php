@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
@@ -31,18 +32,26 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
+
         $user = User::create([
             'name' => $request->get('name'),
             'lastname' => $request->get('lastname'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'cellphone' => $request->get('cellphone'),
+            'address' => $request->get('address'),
+            'image' => $request->get('image'),
+            //'parroquia' => $request->get('parroquia')
         ]);
+
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user', 'token'), 201);
     }
+
     public function getAuthenticatedUser()
     {
         try {
@@ -56,7 +65,9 @@ class UserController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
-        return response()->json(compact('user'));
+
+        // return cambiado por recurso
+        return response()->json(new UserResource($user));
     }
 
 

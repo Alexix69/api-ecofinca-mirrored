@@ -14,7 +14,7 @@ class AddParroquiaIdColumnUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('parroquia_id');
+            $table->unsignedBigInteger('parroquia_id')->nullable();
             $table->foreign('parroquia_id')->references('id')->on('parroquias')->onDelete('restrict');
         });
     }

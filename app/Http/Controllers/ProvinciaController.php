@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Resources\ProvinciaCollection;
 use App\Models\Provincia;
+use App\Http\Resources\Provincia as ProvinciaResource;
 use Illuminate\Http\Request;
 
 class ProvinciaController extends Controller
@@ -13,7 +14,7 @@ class ProvinciaController extends Controller
     }
     public function show(Provincia $provincia)
     {
-        return $provincia;
+        return response()->json(new ProvinciaResource($provincia), 200) ;
     }
     public function store(Request $request)
     {

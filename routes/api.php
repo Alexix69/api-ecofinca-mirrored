@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CantonController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\ParroquiaController;
 use App\Http\Controllers\ProvinciaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -37,15 +38,18 @@ Route::get('provincias/{provincia}', [ProvinciaController::class, 'show']);
 Route::post('provincias', 'ProvinciaController@store');
 Route::put('provincias/{provincia}', 'ProvinciaController@update');
 Route::delete('provincias/{provincia}', 'ProvinciaController@delete');
-//RUTAS PARA Las parroquias
-Route::get('parroquias', 'ParroquiaController@index');
-Route::get('parroquias/{parroquia}', 'ParroquiaController@show');
-Route::post('parroquias', 'ParroquiaController@store');
-Route::put('parroquias/{parroquia}', 'ParroquiaController@update');
-Route::delete('parroquias/{parroquia}', 'ParroquiaController@delete');
+
 //RUTAS PARA Los cantones
 Route::get('cantones', [CantonController::class, 'index']);
 Route::get('cantones/{canton}', [CantonController::class, 'show']);
 Route::post('cantones', 'CantonController@store');
 Route::put('cantones/{canton}', 'CantonController@update');
 Route::delete('cantones/{canton}', 'CantonController@delete');
+
+//RUTAS PARA Las parroquias
+Route::get('parroquias', [ParroquiaController::class, 'index']);
+Route::get('parroquias/{parroquia}', [ParroquiaController::class, 'show']);
+Route::post('parroquias', 'ParroquiaController@store');
+Route::put('parroquias/{parroquia}', 'ParroquiaController@update');
+Route::delete('parroquias/{parroquia}', 'ParroquiaController@delete');
+
