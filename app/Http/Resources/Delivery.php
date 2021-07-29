@@ -19,7 +19,8 @@ class Delivery extends JsonResource
             'created_at' => $this->created_at->format('d-m-Y'),
             'quantity' => $this->quantity,
             // falta agregar centro de acopio
-            'state' => $this->state
+            'state' => $this->state,
+            'user_id' => $this->user_id
         ];
     }
 }

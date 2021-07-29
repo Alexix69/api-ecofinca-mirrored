@@ -14,6 +14,11 @@ class Parroquia extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->nombre,
+            'canton' => $this->canton->id,
+            'canton_name' => $this->canton->nombre,
+        ];
     }
 }
