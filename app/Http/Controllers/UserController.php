@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +38,8 @@ class UserController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
+        $faker = \Faker\Factory::create();
+
         $user = User::create([
             'name' => $request->get('name'),
             'lastname' => $request->get('lastname'),
@@ -46,6 +49,7 @@ class UserController extends Controller
             'address' => $request->get('address'),
             'image' => $request->get('image'),
             //'parroquia' => $request->get('parroquia')
+            'parroquia_id' => $faker->numberBetween(1,100)
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -70,5 +74,23 @@ class UserController extends Controller
         return response()->json(new UserResource($user));
     }
 
+    public function index(){
+        return response()->json(new UserCollection(User::all()), 200);
+    }
 
+    public function show(User $user){
+        return response()->json(new UserResource($user), 200);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+//            'cellphone' => 'string|max:10',
+//            'address' => 'string',
+            'image' => 'string|url'
+        ]);
+
+        $user->update($request->all());
+        return response()->json($user, 200);
+    }
 }

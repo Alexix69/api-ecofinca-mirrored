@@ -20,7 +20,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('picture');
             $table->float('latitude');
             $table->float('longitude');
-            $table->string('state');
+            $table->string('state')->default('pendiente');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();

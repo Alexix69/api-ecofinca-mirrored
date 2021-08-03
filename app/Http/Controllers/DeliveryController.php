@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
+    private static $messages = [
+        'description.max' => 'La descripción es muy extensa',
+        'quantity.integer' => 'La cantidad debe especificarse en enteros',
+        'picture.url' => 'La imagen no se encuentra en Storage',
+    ];
+
     public function index()
     {
-        return response()->json(new DeliveryCollection(Delivery::all()), 200) ;
+        return response()->json(new DeliveryCollection(Delivery::all()), 200);
     }
 
     public function show(Delivery $delivery)
@@ -21,12 +27,28 @@ class DeliveryController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'description' => 'required|max:500',
+            'quantity' => 'required|integer',
+            'picture' => 'required|url',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ], self::$messages);
+
         $delivery = Delivery::create($request->all());
         return response()->json($delivery, 201);
     }
 
     public function update(Request $request, Delivery $delivery)
     {
+        $request->validate([
+            'description' => 'required|max:500',
+            'quantity' => 'required|integer',
+            'picture' => 'required|url',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ], self::$messages);
+
         $delivery->update($request->all());
         return response()->json($delivery, 200);
     }
@@ -37,3 +59,5 @@ class DeliveryController extends Controller
         return response()->json(null, 204);
     }
 }
+
+
