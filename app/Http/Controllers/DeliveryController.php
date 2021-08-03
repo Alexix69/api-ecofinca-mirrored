@@ -8,6 +8,7 @@ use App\Http\Resources\DeliveryCollection;
 use App\Models\Delivery;
 use App\Http\Resources\Delivery as DeliveryResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class DeliveryController extends Controller
 {
