@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
@@ -31,18 +33,29 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
+
+        $faker = \Faker\Factory::create();
+
         $user = User::create([
             'name' => $request->get('name'),
             'lastname' => $request->get('lastname'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'cellphone' => $request->get('cellphone'),
+            'address' => $request->get('address'),
+            'image' => $request->get('image'),
+            //'parroquia' => $request->get('parroquia')
+            'parroquia_id' => $faker->numberBetween(1,100)
         ]);
+
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user', 'token'), 201);
     }
+
     public function getAuthenticatedUser()
     {
         try {
@@ -56,6 +69,28 @@ class UserController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
-        return response()->json(compact('user'));
+
+        // return cambiado por recurso
+        return response()->json(new UserResource($user));
+    }
+
+    public function index(){
+        return response()->json(new UserCollection(User::all()), 200);
+    }
+
+    public function show(User $user){
+        return response()->json(new UserResource($user), 200);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+//            'cellphone' => 'string|max:10',
+//            'address' => 'string',
+            'image' => 'string|url'
+        ]);
+
+        $user->update($request->all());
+        return response()->json($user, 200);
     }
 }

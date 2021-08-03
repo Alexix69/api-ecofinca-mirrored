@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CantonCollection;
 use App\Models\Canton;
 use Illuminate\Http\Request;
+use App\Http\Resources\Canton as CantonResource;
 
 class CantonController extends Controller
 {
     public function index()
     {
-        return Canton::all();
+        return response()->json(new CantonCollection(Canton::all()), 200);
     }
     public function show(Canton $canton)
     {
-        return $canton;
+        return response()->json(new CantonResource($canton), 200) ;
     }
     public function store(Request $request)
     {

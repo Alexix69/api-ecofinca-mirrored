@@ -23,11 +23,12 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'cellphone',
-        'neighborhood',
+        //'neighborhood',
         'address',
         'image',
-        'latitude',
-        'longitude'
+        //'latitude',
+        //'longitude',
+        'parroquia_id'
     ];
 
     /**
@@ -56,5 +57,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function deliveries()
+    {
+        return $this->hasMany('App\Models\Delivery');
+    }
+
+    public function parroquia()
+    {
+        return $this->belongsTo('App\Models\Parroquia');
     }
 }
