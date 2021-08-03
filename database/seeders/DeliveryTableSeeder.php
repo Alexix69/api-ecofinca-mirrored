@@ -39,7 +39,7 @@ class DeliveryTableSeeder extends Seeder
                     'picture' => $faker->imageUrl(400, 300, null, false),
                     'latitude'  => $faker->latitude,
                     'longitude' => $faker->longitude,
-                    'state' => 'pendiente'
+                    //'state' => 'pendiente'
                 ]);
             }
         }

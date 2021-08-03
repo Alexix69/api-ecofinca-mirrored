@@ -24,6 +24,9 @@ Route::post('/login', [UserController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::put('/users/{user}', [UserController::class, 'update']);
 
     //RUTAS PARA LA ENTREGA
     Route::get('deliveries', [DeliveryController::class, 'index']);

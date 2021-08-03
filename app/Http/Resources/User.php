@@ -19,9 +19,11 @@ class User extends JsonResource
         $provincia = $canton->provincia;
 
         return [
+            'id' => $this->id,
             'parroquia' => $parroquia->nombre,
             'canton' => $canton->nombre,
-            'provincia' => $provincia->nombre
+            'provincia' => $provincia->nombre,
+
         ];
     }
 }
