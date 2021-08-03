@@ -13,7 +13,7 @@ class CreateDeliveriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('deliveries', function (Blueprint $table) {
+        Schema::create('sds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('description');
             $table->integer('quantity');
@@ -32,6 +32,6 @@ class CreateDeliveriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deliveries');
+        Schema::dropIfExists('sds');
     }
 }

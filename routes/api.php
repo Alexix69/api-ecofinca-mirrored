@@ -23,11 +23,11 @@ Route::group(['/middleware' => ['jwt.verify']], function () {
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
 
     //RUTAS PARA LA ENTREGA
-    Route::get('deliveries', [DeliveryController::class, 'index']);
-    Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
-    Route::post('deliveries', [DeliveryController::class, 'store']);
-    Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
-    Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
+    Route::get('sds', [DeliveryController::class, 'index']);
+    Route::get('sds/{delivery}', [DeliveryController::class, 'show']);
+    Route::post('sds', [DeliveryController::class, 'store']);
+    Route::put('sds/{delivery}', [DeliveryController::class, 'update']);
+    Route::delete('sds/{delivery}', [DeliveryController::class, 'delete']);
 });
 //RUTAS PARA las provincias
 Route::get('provincias', 'ProvinciaController@index');

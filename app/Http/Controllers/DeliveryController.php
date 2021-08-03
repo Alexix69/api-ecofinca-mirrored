@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewDelivery;
 use App\Models\Delivery;
 use App\Http\Resources\Delivery as DeliveryResource;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class DeliveryController extends Controller
     public function store(Request $request)
     {
         $delivery = Delivery::create($request->all());
+        Mail::to($delivery->user)->send(new NewDelivery($delivery));
         return response()->json($delivery, 201);
     }
     public function update(Request $request, Delivery $delivery)
