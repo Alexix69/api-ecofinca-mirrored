@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Mail\NewDelivery;
 use App\Http\Resources\DeliveryCollection;
 use App\Models\Delivery;
 use App\Http\Resources\Delivery as DeliveryResource;
@@ -36,6 +38,7 @@ class DeliveryController extends Controller
         ], self::$messages);
 
         $delivery = Delivery::create($request->all());
+        Mail::to($delivery->user)->send(new NewDelivery($delivery));
         return response()->json($delivery, 201);
     }
 
