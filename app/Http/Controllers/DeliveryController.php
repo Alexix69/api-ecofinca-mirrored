@@ -9,7 +9,9 @@ use App\Models\Delivery;
 use App\Http\Resources\Delivery as DeliveryResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\Storage;
+
 
 class DeliveryController extends Controller
 {
@@ -21,16 +23,19 @@ class DeliveryController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Delivery::class);
         return response()->json(new DeliveryCollection(Delivery::all()), 200);
     }
 
     public function show(Delivery $delivery)
     {
+        $this->authorize('view', $delivery);
         return response()->json(new DeliveryResource($delivery), 200);
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Delivery::class);
         $request->validate([
             'description' => 'required|max:500',
             'quantity' => 'required|integer',
@@ -49,6 +54,8 @@ class DeliveryController extends Controller
 
     public function update(Request $request, Delivery $delivery)
     {
+        $this->authorize('update', $delivery);
+
         $request->validate([
             'description' => 'required|max:500',
             'quantity' => 'required|integer',
@@ -76,5 +83,3 @@ class DeliveryController extends Controller
         return response()->download(public_path(Storage::url($delivery->picture)), $delivery->id.'.jpg');
     }
 }
-
-
