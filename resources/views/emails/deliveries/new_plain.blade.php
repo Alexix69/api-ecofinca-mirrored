@@ -1,6 +1,6 @@
 
 <html>
 <body>
-<h1>Hola! Tu artículo ha recibido nuevo comentario texto plano.</h1>
+<h1>Hola! Mensaje de prueba.</h1>
 </body>
 </html>
