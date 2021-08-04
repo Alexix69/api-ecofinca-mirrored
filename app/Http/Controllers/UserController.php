@@ -30,9 +30,11 @@ class UserController extends Controller
         return response()->json(compact('token'));
     }
 
-    public function register(Request $request, String $usertype)
+    public function register(Request $request)
     {
-        if ($usertype = 'FarmOwner') {
+        $usertype = $request->usertype;
+
+        if ($usertype == 'FarmOwner') {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -40,15 +42,24 @@ class UserController extends Controller
                 'farm_name' => 'required|string',
                 'farm_description' => 'required|string'
             ]);
+
+            $farm_owner = FarmOwner::create([
+                'farm_name' => $request->get('farm_name'),
+                'farm_description' => $request->get('farm_description'),
+            ]);
         }
 
-        if ($usertype = 'RecyclerOwner') {
+        if ($usertype == 'RecyclerOwner') {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
                 'collection_center_name' => 'required|string',
                 'collection_center_information' => 'required|string'
+            ]);
+            $recycler_owner = RecyclerOwner::create([
+                'collection_center_name' => $request->get('collection_center_name'),
+                'collection_center_information' => $request->get('collection_center_information'),
             ]);
         }
 
@@ -58,18 +69,7 @@ class UserController extends Controller
 
         $faker = \Faker\Factory::create();
 
-        $farm_owner = FarmOwner::create([
-            'farm_name' => $request->get('farm_name'),
-            'farm_description' => $request->get('farm_description'),
-        ]);
-
-
-        $recycler_owner = RecyclerOwner::create([
-            'collection_center_name' => $request->get('collection_center_name'),
-            'collection_center_information' => $request->get('collection_center_information'),
-        ]);
-
-        if ($usertype = 'FarmOwner') {
+        if ($usertype == 'FarmOwner') {
             $farm_owner->user()->create([
                 'name' => $request->get('name'),
                 'lastname' => $request->get('lastname'),
@@ -84,11 +84,11 @@ class UserController extends Controller
             $user = $farm_owner->user;
 
             $token = JWTAuth::fromUser($user);
-
+            Mail::to($user)->send(new NewUser($user));
             return response()->json(new UserResource($user, $token), 201);
         }
 
-        if ($usertype = 'RecyclerOwner') {
+        if ($usertype == 'RecyclerOwner') {
             $recycler_owner->user()->create([
                 'name' => $request->get('name'),
                 'lastname' => $request->get('lastname'),
@@ -103,14 +103,13 @@ class UserController extends Controller
             $user = $recycler_owner->user;
 
             $token = JWTAuth::fromUser($user);
-
+            Mail::to($user)->send(new NewUser($user));
             return response()->json(new UserResource($user, $token), 201);
         }
 
-        $token = JWTAuth::fromUser($user);
-        Mail::to($user)->send(new NewUser($user));
-        return response()->json(compact('user', 'token'), 201);
+//        $token = JWTAuth::fromUser($user);
 
+//        return response()->json(compact('user', 'token'), 201);
     }
 
     public function getAuthenticatedUser()

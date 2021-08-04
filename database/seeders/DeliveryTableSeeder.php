@@ -31,7 +31,7 @@ class DeliveryTableSeeder extends Seeder
             // iniciamos sesión con este usuario
             JWTAuth::attempt(['email' => $user->email, 'password' => '123123']);
             // Y ahora con este usuario creamos algunas entregas
-            $num_deliveries = 10;
+            $num_deliveries = 2;
             for ($j = 0; $j < $num_deliveries; $j++) {
                 $image_name = $faker->image('public/storage/deliveries', 400, 300, null,false);
                 Delivery::create([

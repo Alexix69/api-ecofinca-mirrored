@@ -82,4 +82,6 @@ class DeliveryController extends Controller
     {
         return response()->download(public_path(Storage::url($delivery->picture)), $delivery->id.'.jpg');
     }
+
+
 }

@@ -14,7 +14,7 @@ class CreateRecyclerOwnersTable extends Migration
     public function up()
     {
         Schema::create('recycler_owners', function (Blueprint $table) {
-            $table->id('recycler_owner_id');
+            $table->id();
             $table->string('collection_center_name');
             $table->string('collection_center_information');
             $table->timestamps();

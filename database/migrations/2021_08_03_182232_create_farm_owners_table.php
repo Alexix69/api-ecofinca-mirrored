@@ -14,7 +14,7 @@ class CreateFarmOwnersTable extends Migration
     public function up()
     {
         Schema::create('farm_owners', function (Blueprint $table) {
-            $table->id('farm_owner_id');
+            $table->id();
             $table->string('farm_name');
             $table->string('farm_description');
             $table->timestamps();
