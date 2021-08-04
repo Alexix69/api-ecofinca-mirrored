@@ -28,13 +28,17 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::get('users/{user}/image', [UserController::class, 'image']);
 
-    //RUTAS PARA LA ENTREGA
+    //RUTAS PARA LA ENTREGA centro de acopio
     Route::get('deliveries', [DeliveryController::class, 'index']);
     Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
+
+    //RUTAS PARA LA ENTREGA dueño de finca
+
     Route::post('deliveries', [DeliveryController::class, 'store']);
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
     Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
     Route::get('deliveries/{delivery}/image', [DeliveryController::class, 'image']);
+
 
     //RUTAS PARA las provincias
     Route::get('provincias', [ProvinciaController::class, 'index']);
