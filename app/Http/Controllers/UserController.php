@@ -94,6 +94,14 @@ class UserController extends Controller
         ]);
 
         $user->update($request->all());
+        $path = $request->image->store('public/users'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        $user->image=$path;
+        $user->save();
         return response()->json($user, 200);
+    }
+
+    public function image(User $user)
+    {
+        return response()->download(public_path(Storage::url($user->image)), $user->name);
     }
 }
