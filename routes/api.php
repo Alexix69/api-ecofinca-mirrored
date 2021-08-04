@@ -21,12 +21,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'authenticate']);
-
+Route::get('deliveries/{delivery}/image', [DeliveryController::class, 'image']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::get('users/{user}/image', [UserController::class, 'image']);
 
     //RUTAS PARA LA ENTREGA
     Route::get('deliveries', [DeliveryController::class, 'index']);
@@ -34,6 +35,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('deliveries', [DeliveryController::class, 'store']);
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
     Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
+//    Route::get('deliveries/{delivery}/image', [DeliveryController::class, 'image']);
 });
 //RUTAS PARA las provincias
 Route::get('provincias', [ProvinciaController::class, 'index']);

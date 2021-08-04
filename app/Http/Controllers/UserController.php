@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
+use App\Mail\NewUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -61,6 +63,7 @@ class UserController extends Controller
             'farm_description' => $request->get('farm_description'),
         ]);
 
+
         $recycler_owner = RecyclerOwner::create([
             'collection_center_name' => $request->get('collection_center_name'),
             'collection_center_information' => $request->get('collection_center_information'),
@@ -103,6 +106,11 @@ class UserController extends Controller
 
             return response()->json(new UserResource($user, $token), 201);
         }
+
+        $token = JWTAuth::fromUser($user);
+        Mail::to($user)->send(new NewUser($user));
+        return response()->json(compact('user', 'token'), 201);
+
     }
 
     public function getAuthenticatedUser()
@@ -142,6 +150,14 @@ class UserController extends Controller
         ]);
 
         $user->update($request->all());
+        $path = $request->image->store('public/users'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        $user->image=$path;
+        $user->save();
         return response()->json($user, 200);
+    }
+
+    public function image(User $user)
+    {
+        return response()->download(public_path(Storage::url($user->image)), $user->name);
     }
 }

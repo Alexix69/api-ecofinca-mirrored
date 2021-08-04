@@ -10,6 +10,9 @@ use App\Http\Resources\Delivery as DeliveryResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Storage;
+
+
 class DeliveryController extends Controller
 {
     private static $messages = [
@@ -36,12 +39,15 @@ class DeliveryController extends Controller
         $request->validate([
             'description' => 'required|max:500',
             'quantity' => 'required|integer',
-            'picture' => 'required|url',
+            'picture' => 'required|image',
             'latitude' => 'required',
             'longitude' => 'required'
         ], self::$messages);
 
         $delivery = Delivery::create($request->all());
+        $path = $request->picture->storeAs('public/deliveries', $request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension()); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        $delivery->picture=$path;
+        $delivery->save();
         Mail::to($delivery->user)->send(new NewDelivery($delivery));
         return response()->json($delivery, 201);
     }
@@ -59,6 +65,10 @@ class DeliveryController extends Controller
         ], self::$messages);
 
         $delivery->update($request->all());
+        $delivery = Delivery::create($request->all());
+        $path = $request->picture->store('public/deliveries'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        $delivery->picture=$path;
+        $delivery->save();
         return response()->json($delivery, 200);
     }
 
@@ -66,5 +76,10 @@ class DeliveryController extends Controller
     {
         $delivery->delete();
         return response()->json(null, 204);
+    }
+
+    public function image(Delivery $delivery)
+    {
+        return response()->download(public_path(Storage::url($delivery->picture)), $delivery->id.'.jpg');
     }
 }

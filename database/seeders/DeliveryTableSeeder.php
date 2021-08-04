@@ -33,10 +33,11 @@ class DeliveryTableSeeder extends Seeder
             // Y ahora con este usuario creamos algunas entregas
             $num_deliveries = 10;
             for ($j = 0; $j < $num_deliveries; $j++) {
+                $image_name = $faker->image('public/storage/deliveries', 400, 300, null,false);
                 Delivery::create([
                     'description' => $faker->sentence,
                     'quantity' => $faker->numberBetween(1, 30),
-                    'picture' => $faker->imageUrl(400, 300, null, false),
+                    'picture' => 'deliveries/' . $image_name,
                     'latitude'  => $faker->latitude,
                     'longitude' => $faker->longitude,
                     //'state' => 'pendiente'

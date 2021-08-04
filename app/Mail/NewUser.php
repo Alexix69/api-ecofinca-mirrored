@@ -2,25 +2,24 @@
 
 namespace App\Mail;
 
-use App\Models\Delivery;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewDelivery extends Mailable
+class NewUser extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $delivery;
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Delivery $delivery)
+    public function __construct(User $user)
     {
-        $this->delivery = $delivery;
+        $this->user = $user;
     }
 
     /**
@@ -30,6 +29,6 @@ class NewDelivery extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.deliveries.new');
+        return $this->markdown('emails.users.new');
     }
 }
