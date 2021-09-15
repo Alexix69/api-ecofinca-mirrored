@@ -14,10 +14,11 @@ class User extends JsonResource
         parent::__construct($resource);
         $this->token = $token;
     }
+
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -30,14 +31,15 @@ class User extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'lastname' => $this->lastname,
-            'cellphone' => $this->cellphone,
             'address' => $this->address,
             'parroquia' => $parroquia->nombre,
             'canton' => $canton->nombre,
             'provincia' => $provincia->nombre,
-            $this->merge($this->userable),
-            'token' => $this->when($this->token, $this->token)
-
+            'image' => $this->image,
+            'token' => $this->when($this->token, $this->token),
+            'organization_type' => $this->organization_type,
+            'description' => $this->description,
+            'role' => $this->role
         ];
     }
 }

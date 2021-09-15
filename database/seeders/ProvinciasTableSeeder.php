@@ -14,12 +14,11 @@ class ProvinciasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
         Provincia :: truncate();
 
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 27; $i++) {
+        for ($i = 0; $i < 24; $i++) {
             Provincia::create([
                 'nombre' => $faker->name,
             ]);

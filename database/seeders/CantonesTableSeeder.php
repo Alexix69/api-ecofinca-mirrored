@@ -14,15 +14,14 @@ class CantonesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
         Canton :: truncate();
 
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 57; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             Canton::create([
                 'nombre' => $faker->name,
-                'provincia_id' => $faker->numberBetween(1, 27)
+                'provincia_id' => $faker->numberBetween(1, 24)
             ]);
         }
     }

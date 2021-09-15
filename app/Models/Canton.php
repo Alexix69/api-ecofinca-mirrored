@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Canton extends Model
 {
-    protected $fillable = ['nombre'];
-
     public function provincia()
     {
         return $this->belongsTo('App\Models\Provincia');

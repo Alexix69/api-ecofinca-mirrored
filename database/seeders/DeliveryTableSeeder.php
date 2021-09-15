@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Parroquia;
+use App\Models\Canton;
 use App\Models\Delivery;
+use App\Models\Provincia;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -27,21 +30,30 @@ class DeliveryTableSeeder extends Seeder
         // sesión con cada uno para crear entregas en su nombre
 
         $users = User::all();
+        $image_name = $faker->image('public/storage/deliveries', 400, 300, null, false);
         foreach ($users as $user) {
             // iniciamos sesión con este usuario
-            JWTAuth::attempt(['email' => $user->email, 'password' => '123123']);
-            // Y ahora con este usuario creamos algunas entregas
-            $num_deliveries = 2;
-            for ($j = 0; $j < $num_deliveries; $j++) {
-                $image_name = $faker->image('public/storage/deliveries', 400, 300, null,false);
-                Delivery::create([
-                    'description' => $faker->sentence,
-                    'quantity' => $faker->numberBetween(1, 30),
-                    'picture' => 'deliveries/' . $image_name,
-                    'latitude'  => $faker->latitude,
-                    'longitude' => $faker->longitude,
-                    //'state' => 'pendiente'
-                ]);
+            if ($user->role === 'ROLE_FARM') {
+                JWTAuth::attempt(['email' => $user->email, 'password' => '123123']);
+                // Y ahora con este usuario creamos algunas entregas
+                $num_deliveries = 3;
+                for ($j = 0; $j < $num_deliveries; $j++) {
+                    $random = $faker->numberBetween(1, 225);
+                    $parroquia = Parroquia::find($random);
+                    $canton = $parroquia->canton;
+                    $provincia = $canton->provincia;
+
+                    Delivery::create([
+                        'description' => $faker->sentence,
+                        'quantity' => $faker->numberBetween(1, 30),
+                        'image' => 'deliveries/' . $image_name,
+                        'parroquia' => $parroquia->nombre,
+                        'canton' => $canton->nombre,
+                        'provincia' => $provincia->nombre,
+                        'for_user_id' => $faker->numberBetween(11, 20),
+                        'state' => 'pendiente'
+                    ]);
+                }
             }
         }
     }

@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
-use App\Mail\NewUser;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
+
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Resources\User as UserResource;
-use App\Models\FarmOwner;
-use App\Models\RecyclerOwner;
+
 
 class UserController extends Controller
 {
@@ -27,85 +25,138 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        return response()->json(compact('token'));
+        $user = JWTAuth::user();
+        $userResource = new UserResource($user);
+        return response()->json(compact('token', 'userResource'))
+            ->withCookie(
+                'token',
+                $token,
+                config('jwt.ttl'),
+                '/',
+                null,
+                config('app.env') !== 'local',
+                true,
+                false,
+                config('app.env') !== 'local' ? 'None' : 'Lax'
+            );
     }
 
     public function register(Request $request)
     {
-        $usertype = $request->usertype;
+        //VAIDACION DE FORMULARIO
+//        $request->validate([
+//            'name' => 'required|string|max:255',
+//            'lastname' => 'required|string|max:255',
+//            'email' => 'required|string|email|max:255|unique:users',
+//            'password' => 'required|string|min:6|confirmed',
+//            'address' => 'required|string|max:400',
+//            'organization_type' => 'required|string|max:255',
+//            'description' => 'string|400',
+//            'parroquia_id' => 'required',
+//            'role' => 'required'
+//        ]);
 
-        if ($usertype == 'FarmOwner') {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
-                'farm_name' => 'required|string',
-                'farm_description' => 'required|string'
-            ]);
+        //COINCIDIR CON LA BD
+        $user = User::create([
+            'name' => $request->get('name'),
+            'lastname' => $request->get('lastname'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
+            'address' => $request->get('address'),
+            'organization_type' => $request->get('organization_type'),
+            'description' => $request->get('description'),
+            'parroquia_id' => $request->get('parroquia_id'),
+            'role' => $request->get('role')
+        ]);
 
-            $farm_owner = FarmOwner::create([
-                'farm_name' => $request->get('farm_name'),
-                'farm_description' => $request->get('farm_description'),
-            ]);
-        }
-
-        if ($usertype == 'RecyclerOwner') {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
-                'collection_center_name' => 'required|string',
-                'collection_center_information' => 'required|string'
-            ]);
-            $recycler_owner = RecyclerOwner::create([
-                'collection_center_name' => $request->get('collection_center_name'),
-                'collection_center_information' => $request->get('collection_center_information'),
-            ]);
-        }
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        $faker = \Faker\Factory::create();
-
-        if ($usertype == 'FarmOwner') {
-            $farm_owner->user()->create([
-                'name' => $request->get('name'),
-                'lastname' => $request->get('lastname'),
-                'email' => $request->get('email'),
-                'password' => Hash::make($request->get('password')),
-                'cellphone' => $request->get('cellphone'),
-                'address' => $request->get('address'),
-                'image' => $request->get('image'),
-                'parroquia_id' => $faker->numberBetween(1, 100)
-            ]);
-
-            $user = $farm_owner->user;
-
-            $token = JWTAuth::fromUser($user);
-            Mail::to($user)->send(new NewUser($user));
-            return response()->json(new UserResource($user, $token), 201);
-        }
-
-        if ($usertype == 'RecyclerOwner') {
-            $recycler_owner->user()->create([
-                'name' => $request->get('name'),
-                'lastname' => $request->get('lastname'),
-                'email' => $request->get('email'),
-                'password' => Hash::make($request->get('password')),
-                'cellphone' => $request->get('cellphone'),
-                'address' => $request->get('address'),
-                'image' => $request->get('image'),
-                'parroquia_id' => $faker->numberBetween(1, 100)
-            ]);
-
-            $user = $recycler_owner->user;
-
-            $token = JWTAuth::fromUser($user);
-            Mail::to($user)->send(new NewUser($user));
-            return response()->json(new UserResource($user, $token), 201);
-        }
+        $token = JWTAuth::fromUser($user);
+        return response()->json(new UserResource($user, $token), 201)
+            ->withCookie(
+                'token',
+                $token,
+                config('jwt.ttl'),
+                '/',
+                null,
+                config('app.env') !== 'local',
+                true,
+                false,
+                config('app.env') !== 'local' ? 'None' : 'Lax'
+            );
+//        $usertype = $request->usertype;
+//
+//        if ($usertype == 'FarmOwner') {
+//            $validator = Validator::make($request->all(), [
+//                'name' => 'required|string|max:255',
+//                'email' => 'required|string|email|max:255|unique:users',
+//                'password' => 'required|string|min:6|confirmed',
+//                'farm_name' => 'required|string',
+//                'farm_description' => 'required|string'
+//            ]);
+//
+//            $farm_owner = FarmOwner::create([
+//                'farm_name' => $request->get('farm_name'),
+//                'farm_description' => $request->get('farm_description'),
+//            ]);
+//        }
+//
+//        if ($usertype == 'RecyclerOwner') {
+//            $validator = Validator::make($request->all(), [
+//                'name' => 'required|string|max:255',
+//                'email' => 'required|string|email|max:255|unique:users',
+//                'password' => 'required|string|min:6|confirmed',
+//                'collection_center_name' => 'required|string',
+//                'collection_center_information' => 'required|string'
+//            ]);
+//            $recycler_owner = RecyclerOwner::create([
+//                'collection_center_name' => $request->get('collection_center_name'),
+//                'collection_center_information' => $request->get('collection_center_information'),
+//            ]);
+//        }
+//
+//        if ($validator->fails()) {
+//            return response()->json($validator->errors()->toJson(), 400);
+//        }
+//
+//        $faker = \Faker\Factory::create();
+//
+//        if ($usertype == 'FarmOwner') {
+//            $farm_owner->user()->create([
+//                'name' => $request->get('name'),
+//                'lastname' => $request->get('lastname'),
+//                'email' => $request->get('email'),
+//                'password' => Hash::make($request->get('password')),
+//                //elmiinar celular
+//                'cellphone' => $request->get('cellphone'),
+//                'address' => $request->get('address'),
+//                'image' => $request->get('image'),
+//                'parroquia_id' => $faker->numberBetween(1, 100)
+//            ]);
+//
+//            $user = $farm_owner->user;
+//
+//            $token = JWTAuth::fromUser($user);
+//            Mail::to($user)->send(new NewUser($user));
+//            return response()->json(new UserResource($user, $token), 201);
+//        }
+//
+//        if ($usertype == 'RecyclerOwner') {
+//            $recycler_owner->user()->create([
+//                'name' => $request->get('name'),
+//                'lastname' => $request->get('lastname'),
+//                'email' => $request->get('email'),
+//                'password' => Hash::make($request->get('password')),
+//                'cellphone' => $request->get('cellphone'),
+//                'address' => $request->get('address'),
+//                'image' => $request->get('image'),
+//                'parroquia_id' => $faker->numberBetween(1, 100)
+//            ]);
+//
+//            $user = $recycler_owner->user;
+//
+//            $token = JWTAuth::fromUser($user);
+//            Mail::to($user)->send(new NewUser($user));
+//            return response()->json(new UserResource($user, $token), 201);
+//        }
 
 //        $token = JWTAuth::fromUser($user);
 
@@ -155,8 +206,8 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    public function image(User $user)
-    {
-        return response()->download(public_path(Storage::url($user->image)), $user->name);
-    }
+//    public function image(User $user)
+//    {
+//        return response()->download(public_path(Storage::url($user->image)), $user->name);
+//    }
 }

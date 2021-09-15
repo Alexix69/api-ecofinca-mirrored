@@ -20,7 +20,11 @@ class Delivery extends JsonResource
             'quantity' => $this->quantity,
             // falta agregar centro de acopio
             'state' => $this->state,
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            'provincia' => $this->provincia,
+            'canton' => $this->canton,
+            'parroquia' => $this->parroquia,
+            'for_user_id' => $this->for_user_id
         ];
     }
 }
