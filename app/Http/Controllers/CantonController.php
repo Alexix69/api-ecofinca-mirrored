@@ -17,20 +17,20 @@ class CantonController extends Controller
     {
         return response()->json(new CantonResource($canton), 200) ;
     }
-    public function store(Request $request)
-    {
-        $canton = Canton::create($request->all());
-        return response()->json($canton, 201);
-    }
-    public function update(Request $request, Canton $canton)
-    {
-        $canton->update($request->all());
-        return response()->json($canton, 200);
-    }
-    public function delete(Canton $canton)
-    {
-        $canton->delete();
-        return response()->json(null, 204);
-    }
+//    public function store(Request $request)
+//    {
+//        $canton = Canton::create($request->all());
+//        return response()->json($canton, 201);
+//    }
+//    public function update(Request $request, Canton $canton)
+//    {
+//        $canton->update($request->all());
+//        return response()->json($canton, 200);
+//    }
+//    public function delete(Canton $canton)
+//    {
+//        $canton->delete();
+//        return response()->json(null, 204);
+//    }
 }
 

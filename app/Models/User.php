@@ -22,20 +22,30 @@ class User extends Authenticatable implements JWTSubject
         'lastname',
         'email',
         'password',
-        'cellphone',
         'address',
         'image',
-        'parroquia_id'
+        'organization_type',
+        'description',
+        'parroquia_id',
+        'role'
     ];
 
-    const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_USER = 'ROLE_USER';
+//    const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+//    const ROLE_ADMIN = 'ROLE_ADMIN';
+//    const ROLE_USER = 'ROLE_USER';
+//
+//    private const ROLES_HIERARCHY = [
+//        self::ROLE_SUPERADMIN => [self::ROLE_ADMIN],
+//        self::ROLE_ADMIN => [self::ROLE_USER],
+//        self::ROLE_USER => []
+//    ];
+
+    const ROLE_FARM = 'ROLE_FARM';
+    const ROLE_COLLECTION_CENTER = 'ROLE_COLLECTION_CENTER';
 
     private const ROLES_HIERARCHY = [
-        self::ROLE_SUPERADMIN => [self::ROLE_ADMIN],
-        self::ROLE_ADMIN => [self::ROLE_USER],
-        self::ROLE_USER => []
+        self::ROLE_FARM => [],
+        self::ROLE_COLLECTION_CENTER => []
     ];
 
     /**
@@ -61,6 +71,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
+
     public function getJWTCustomClaims()
     {
         return [];
@@ -69,6 +80,13 @@ class User extends Authenticatable implements JWTSubject
     public function deliveries()
     {
         return $this->hasMany('App\Models\Delivery');
+    }
+
+
+    //funcion para asignar la entrega a un centro de acopio
+    public function assignedDeliveries()
+    {
+        return $this->hasMany('App\Models\Delivery', 'for_user_id', 'id');
     }
 
     public function parroquia()
@@ -95,10 +113,5 @@ class User extends Authenticatable implements JWTSubject
             }
         }
         return false;
-    }
-
-    public function userable()
-    {
-        return $this->morphTo();
     }
 }

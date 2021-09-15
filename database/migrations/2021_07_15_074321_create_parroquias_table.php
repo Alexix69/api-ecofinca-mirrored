@@ -14,7 +14,7 @@ class CreateParroquiasTable extends Migration
     public function up()
     {
         Schema::create('parroquias', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
