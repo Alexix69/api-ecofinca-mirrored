@@ -16,11 +16,14 @@ class CreateDeliveriesTable extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('description');
-            $table->integer('quantity');
-            $table->string('picture');
-            $table->float('latitude');
-            $table->float('longitude');
-            $table->string('state')->default('pendiente');
+            $table->string('quantity');
+            $table->string('image');
+            $table->string('provincia');
+            $table->string('canton');
+            $table->string('parroquia');
+            $table->unsignedBigInteger('for_user_id');
+            $table->foreign('for_user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->string('state');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();

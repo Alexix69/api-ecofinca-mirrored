@@ -7,10 +7,14 @@ use App\Mail\NewDelivery;
 use App\Http\Resources\DeliveryCollection;
 use App\Models\Delivery;
 use App\Http\Resources\Delivery as DeliveryResource;
+use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Storage;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class DeliveryController extends Controller
@@ -23,65 +27,88 @@ class DeliveryController extends Controller
 
     public function index()
     {
+        //muestra entregas de acuerdo al role y de acuerdo al id
         $this->authorize('viewAny', Delivery::class);
-        return response()->json(new DeliveryCollection(Delivery::all()), 200);
+        $user = Auth::user();
+        if($user->role === 'ROLE_FARM'){
+            return response()->json(new DeliveryCollection(Delivery::where('user_id', $user->id)->get()));
+        }else{
+            return response()->json(new DeliveryCollection(Delivery::where('for_user_id', $user->id)->get()));
+        }
     }
 
     public function show(Delivery $delivery)
     {
-        $this->authorize('view', $delivery);
+//        $this->authorize('view', $delivery);
         return response()->json(new DeliveryResource($delivery), 200);
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create', Delivery::class);
+//        $this->authorize('create', Delivery::class);
         $request->validate([
             'description' => 'required|max:500',
             'quantity' => 'required|integer',
-            'picture' => 'required|image',
-            'latitude' => 'required',
-            'longitude' => 'required'
+            'image' => 'required|image',
+            'provincia' => 'required',
+            'canton' => 'required',
+            'parroquia' => 'required',
+            'for_user_id' => 'required',
+            'state' => 'required'
         ], self::$messages);
 
         $delivery = Delivery::create($request->all());
-        $path = $request->picture->storeAs('public/deliveries', $request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension()); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
-        $delivery->picture=$path;
+        $path = $request->image->storeAs('public/deliveries', $request->user()->id . '_' . $delivery->id . '.' . $request->image->extension()); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        $delivery->image = $path;
         $delivery->save();
         Mail::to($delivery->user)->send(new NewDelivery($delivery));
         return response()->json($delivery, 201);
     }
 
+    //ESTE METODO DEBERÍA SER updateOfCollectionCenter()
     public function update(Request $request, Delivery $delivery)
     {
-        $this->authorize('update', $delivery);
+//        $this->authorize('update', $delivery);
 
         $request->validate([
-            'description' => 'required|max:500',
-            'quantity' => 'required|integer',
-            'picture' => 'required|url',
-            'latitude' => 'required',
-            'longitude' => 'required'
+//            'description' => 'required|max:500',
+//            'quantity' => 'required|integer',
+//            'image' => 'required|image',
+//            'provincia' => 'required',
+//            'canton' => 'required',
+//            'parroquia' => 'required',
+//            'for_user_id' => 'required',
+            'state' => 'required'
         ], self::$messages);
 
-        $delivery->update($request->all());
-        $delivery = Delivery::create($request->all());
-        $path = $request->picture->store('public/deliveries'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
-        $delivery->picture=$path;
+
+
+        //$delivery->update($request->all());
+        //$delivery = Delivery::create($request->all());
+        //$path = $request->image->store('public/deliveries'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+        //$delivery->image = $path;
+
+        //SE CAMBIA SOLO EL CAMPO REQUERIDO Y SE VUELVE A GUARDAR EL OBJETO
+        $delivery->state = $request->state;
         $delivery->save();
         return response()->json($delivery, 200);
+
+
     }
 
-    public function delete(Delivery $delivery)
-    {
-        $delivery->delete();
-        return response()->json(null, 204);
-    }
+    //CREAR OTRO METODO PARA ACTUALIZAR OTRO CAMPO
+
+//    public function delete(Delivery $delivery)
+//    {
+//        $delivery->delete();
+//        return response()->json(null, 204);
+//    }
 
     public function image(Delivery $delivery)
     {
-        return response()->download(public_path(Storage::url($delivery->picture)), $delivery->id.'.jpg');
+        return response()->download(public_path(Storage::url($delivery->image)), $delivery->id . '.jpg');
     }
 
-
 }
+
+

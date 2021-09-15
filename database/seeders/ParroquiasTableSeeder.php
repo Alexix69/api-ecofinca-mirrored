@@ -14,16 +14,14 @@ class ParroquiasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
         Parroquia :: truncate();
-
 
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 225; $i++) {
             Parroquia::create([
                 'nombre' => $faker->sentence,
-                'canton_id' => $faker->numberBetween(1, 57)
+                'canton_id' => $faker->numberBetween(1, 100)
             ]);
         }
     }
