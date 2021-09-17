@@ -44,17 +44,17 @@ class UserController extends Controller
     public function register(Request $request)
     {
         //VAIDACION DE FORMULARIO
-//        $request->validate([
-//            'name' => 'required|string|max:255',
-//            'lastname' => 'required|string|max:255',
-//            'email' => 'required|string|email|max:255|unique:users',
-//            'password' => 'required|string|min:6|confirmed',
-//            'address' => 'required|string|max:400',
-//            'organization_type' => 'required|string|max:255',
-//            'description' => 'string|400',
-//            'parroquia_id' => 'required',
-//            'role' => 'required'
-//        ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'address' => 'required|string|max:400',
+            'organization_type' => 'required|string|max:255',
+            'description' => 'string|max:400',
+            'parroquia_id' => 'required',
+            'role' => 'required'
+        ]);
 
         //COINCIDIR CON LA BD
         $user = User::create([
@@ -228,7 +228,7 @@ class UserController extends Controller
 
         $user->update($request->all());
         $path = $request->image->store('public/users'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
-        $user->image=$path;
+        $user->image = $path;
         $user->save();
         return response()->json($user, 200);
     }

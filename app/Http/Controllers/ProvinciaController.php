@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\CantonCollection;
 use App\Http\Resources\ProvinciaCollection;
 use App\Models\Provincia;
 use App\Http\Resources\Provincia as ProvinciaResource;
@@ -16,6 +17,13 @@ class ProvinciaController extends Controller
     {
         return response()->json(new ProvinciaResource($provincia), 200) ;
     }
+
+    //LLAMADA A LOS CANTONES DE UNA PROVINCIA, DEFINIR ENDPOINT EN API
+    public function cantones(Provincia $provincia)
+    {
+        return response()->json(new CantonCollection($provincia->cantones), 200) ;
+    }
+
 //    public function store(Request $request)
 //    {
 //        $provincia = Provincia::create($request->all());
