@@ -25,6 +25,7 @@ class DeliveryController extends Controller
         'picture.url' => 'La imagen no se encuentra en Storage',
     ];
 
+    // FUNCIONA LAS VALIDACIONES
     public function index()
     {
         //muestra entregas de acuerdo al role y de acuerdo al id
@@ -39,13 +40,14 @@ class DeliveryController extends Controller
 
     public function show(Delivery $delivery)
     {
-//        $this->authorize('view', $delivery);
+        $this->authorize('view', $delivery);
         return response()->json(new DeliveryResource($delivery), 200);
     }
 
+    //FUNCIONA CON IMAGENES Y ROL
     public function store(Request $request)
     {
-//        $this->authorize('create', Delivery::class);
+        $this->authorize('create', Delivery::class);
         $request->validate([
             'description' => 'required|max:500',
             'quantity' => 'required|integer',
@@ -61,7 +63,7 @@ class DeliveryController extends Controller
         $path = $request->image->storeAs('public/deliveries', $request->user()->id . '_' . $delivery->id . '.' . $request->image->extension()); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
         $delivery->image = $path;
         $delivery->save();
-        Mail::to($delivery->user)->send(new NewDelivery($delivery));
+//        Mail::to($delivery->user)->send(new NewDelivery($delivery));
         return response()->json($delivery, 201);
     }
 

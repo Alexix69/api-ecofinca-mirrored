@@ -50,6 +50,7 @@ class DeliveryPolicy
      * @param User $user
      * @return mixed
      */
+    //FUNCIONA
     public function create(User $user)
     {
         return $user->isGranted(User::ROLE_FARM);

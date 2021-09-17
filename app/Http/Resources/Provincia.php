@@ -17,7 +17,8 @@ class Provincia extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->nombre,
-            'cantones' => new CantonCollection($this->cantones)
+            //NO ENVIAR AQUI LA LISTA DE CANTONES, HACERLO EN EL CONTROLADOR
+//            'cantones' => new CantonCollection($this->cantones)
         ];
     }
 }

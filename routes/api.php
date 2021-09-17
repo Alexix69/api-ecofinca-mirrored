@@ -21,28 +21,34 @@ use Illuminate\Support\Facades\Route;
 //AGREGAR RUTAS PARA LOS ENDPOINTS CREADOS
 //AÑADIR RUTAS QUE DEVUELVAN TODOS LOS CANTONES DE UNA PROVINCIA Y TODAS LAS PARROQUIAS DE UN CANTON
 
+// REGISTRO Y LOGIN => funcionan
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
+    // VER ENTREGAS => funciona
+    Route::get('deliveries', [DeliveryController::class, 'index']);
+    // CREAR ENTREGAS => funciona
+    Route::post('deliveries', [DeliveryController::class, 'store']);
+
+
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
 //    Route::get('users/{user}/image', [UserController::class, 'image']);
 
-    //RUTAS PARA LA ENTREGA centro de acopio
-    Route::get('deliveries', [DeliveryController::class, 'index']);
+
     Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
 
     //RUTAS PARA LA ENTREGA dueño de finca
 
-    Route::post('deliveries', [DeliveryController::class, 'store']);
+
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
 //    Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
     Route::get('deliveries/{delivery}/image', [DeliveryController::class, 'image']);
 
-
+//  ENDPOINT QUE DEVUELVE CANTONES DE PROVINCIA =>  Route::get('provincias/{provincia}/cantones', [ProvinciaController::class, 'cantones']);
     //RUTAS PARA las provincias
     Route::get('provincias', [ProvinciaController::class, 'index']);
     Route::get('provincias/{provincia}', [ProvinciaController::class, 'show']);
