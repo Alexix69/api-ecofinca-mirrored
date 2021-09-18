@@ -19,6 +19,8 @@ class Parroquia extends JsonResource
             'name' => $this->nombre,
             'canton' => $this->canton->id,
             'canton_name' => $this->canton->nombre,
+            'provincia' => $this->canton->provincia->id,
+            'provincia_name' => $this->canton->provincia->nombre
         ];
     }
 }

@@ -21,7 +21,7 @@ class Canton extends JsonResource
             'name' => $this->nombre,
             'provincia_id' => $this->provincia->id,
             'provincia_name' => $this->provincia->nombre,
-            'parroquias' => new ParroquiaCollection($this->parroquias)
+//            'parroquias' => new ParroquiaCollection($this->parroquias)
         ];
     }
 }

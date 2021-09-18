@@ -34,9 +34,11 @@ class DeliveryPolicy
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param  \App\Models\Delivery  $delivery
+     * @param Delivery $delivery
      * @return mixed
      */
+
+    //FUNCIONA
     public function view(User $user, Delivery $delivery)
     {
         // SOLO PUEDE VER LAS QUE LE PERTENECEN (ID)
@@ -60,18 +62,18 @@ class DeliveryPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param  \App\Models\Delivery  $delivery
+     * @param Delivery $delivery
      * @return mixed
      */
-    //PUEDE ACTUALKZAR SOLO EL DUEÑO DE FINCA QUE CREO LA ENTREGA
-    public function update(User $user, Delivery $delivery)
+    //PUEDE ACTUALKZAR SOLO EL DUEÑO DE FINCA QUE CREO LA ENTREGA => PENDIENTE DE REVISAR FUNCIONAMIENTO
+    public function updateByFarm(User $user, Delivery $delivery)
     {
         return $user->isGranted(User::ROLE_FARM) && $user->id === $delivery->user_id;
     }
 
     // CREAR OTRO METODO PARA CONDICIONAR LA ACTUALIZACION DE CADA ROL DE USAURIO
-
-    public function updateOfCollectionCenter(User $user, Delivery $delivery)
+    // FUNCIONA
+    public function updateByCollectionCenter(User $user, Delivery $delivery)
     {
         return $user->isGranted(User::ROLE_COLLECTION_CENTER) && $user->id === $delivery->for_user_id;
     }
@@ -80,7 +82,7 @@ class DeliveryPolicy
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param  \App\Models\Delivery  $delivery
+     * @param Delivery $delivery
      * @return mixed
      */
 //    public function delete(User $user, Delivery $delivery)
@@ -92,7 +94,7 @@ class DeliveryPolicy
      * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param  \App\Models\Delivery  $delivery
+     * @param Delivery $delivery
      * @return mixed
      */
     public function restore(User $user, Delivery $delivery)
@@ -104,7 +106,7 @@ class DeliveryPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param User $user
-     * @param  \App\Models\Delivery  $delivery
+     * @param Delivery $delivery
      * @return mixed
      */
     public function forceDelete(User $user, Delivery $delivery)

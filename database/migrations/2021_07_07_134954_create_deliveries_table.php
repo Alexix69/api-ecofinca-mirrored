@@ -22,7 +22,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('canton');
             $table->string('parroquia');
             $table->unsignedBigInteger('for_user_id');
-            $table->foreign('for_user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('for_user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->string('state');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
