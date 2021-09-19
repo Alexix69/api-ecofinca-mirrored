@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ParroquiaCollection;
+use App\Http\Resources\UserCollection;
 use App\Models\Parroquia;
 use Illuminate\Http\Request;
 use App\Http\Resources\Parroquia as ParroquiaResource;
@@ -17,6 +18,11 @@ class ParroquiaController extends Controller
     {
         return response()->json(new ParroquiaResource($parroquia), 200) ;
     }
+
+//    public function users(Parroquia $parroquia){
+//        return response()->json(new UserCollection($parroquia->users), 200);
+//    }
+
 //    public function store(Request $request)
 //    {
 //        $parroquia = Parroquia::create($request->all());

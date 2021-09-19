@@ -25,50 +25,39 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'authenticate']);
 
+// RUTAS PROVINCIAS => FUNCIONAN
+Route::get('/provincias', [ProvinciaController::class, 'index']);
+Route::get('/provincias/{provincia}', [ProvinciaController::class, 'show']);
+Route::get('/provincias/{provincia}/cantones', [ProvinciaController::class, 'cantones']);
+
+// RUTAS CANTONES => FUNCIONAN
+Route::get('/cantones', [CantonController::class, 'index']);
+Route::get('/cantones/{canton}', [CantonController::class, 'show']);
+Route::get('/cantones/{canton}/parroquias', [CantonController::class, 'parroquias']);
+
+// RUTAS PARROQUIAS => FUNCIONAN
+Route::get('/parroquias', [ParroquiaController::class, 'index']);
+Route::get('/parroquias/{parroquia}', [ParroquiaController::class, 'show']);
+
 Route::group(['middleware' => ['jwt.verify']], function () {
     // VER ENTREGAS => funciona
     Route::get('deliveries', [DeliveryController::class, 'index']);
     // CREAR ENTREGAS => funciona
     Route::post('deliveries', [DeliveryController::class, 'store']);
+    // MOSTRAR UNA ENTREGA => funciona
+    Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
+    // ACTUALIZAR ENTREGA POR FINCA => pendiente revisar
+    Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByFarm']);
+    // ACTUALIZAR ENTREGA POR ACOPIO => funciona
+    Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByCollectionCenter']);
 
-
+    // pendiente de revisar
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
-//    Route::get('users/{user}/image', [UserController::class, 'image']);
-
-
-    Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
-
-    //RUTAS PARA LA ENTREGA dueño de finca
-
-
-    Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
-//    Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
+    Route::get('users/{user}/image', [UserController::class, 'image']);
     Route::get('deliveries/{delivery}/image', [DeliveryController::class, 'image']);
-
-//  ENDPOINT QUE DEVUELVE CANTONES DE PROVINCIA =>  Route::get('provincias/{provincia}/cantones', [ProvinciaController::class, 'cantones']);
-    //RUTAS PARA las provincias
-    Route::get('provincias', [ProvinciaController::class, 'index']);
-    Route::get('provincias/{provincia}', [ProvinciaController::class, 'show']);
-//    Route::post('provincias', [ProvinciaController::class, 'store']);
-//    Route::put('provincias/{provincia}', [ProvinciaController::class, 'update']);
-//    Route::delete('provincias/{provincia}', [ProvinciaController::class, 'delete']);
-
-    //RUTAS PARA Los cantones
-    Route::get('cantones', [CantonController::class, 'index']);
-    Route::get('cantones/{canton}', [CantonController::class, 'show']);
-//    Route::post('cantones', [CantonController::class, 'store']);
-//    Route::put('cantones/{canton}', [CantonController::class, 'update']);
-//    Route::delete('cantones/{canton}', [CantonController::class, 'delete']);
-
-    //RUTAS PARA Las parroquias
-    Route::get('parroquias', [ParroquiaController::class, 'index']);
-    Route::get('parroquias/{parroquia}', [ParroquiaController::class, 'show']);
-//    Route::post('parroquias', [ParroquiaController::class, 'store']);
-//    Route::put('parroquias/{parroquia}', [ParroquiaController::class, 'update']);
-//    Route::delete('parroquias/{parroquia}', [ParroquiaController::class, 'delete']);
 });
 
 
