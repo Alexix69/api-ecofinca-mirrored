@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CantonCollection;
+use App\Http\Resources\Parroquia;
+use App\Http\Resources\ParroquiaCollection;
 use App\Models\Canton;
 use Illuminate\Http\Request;
 use App\Http\Resources\Canton as CantonResource;
@@ -16,6 +18,11 @@ class CantonController extends Controller
     public function show(Canton $canton)
     {
         return response()->json(new CantonResource($canton), 200) ;
+    }
+
+    //PARROQUIAS POR CANTON => FUNCIONA
+    public function parroquias(Canton $canton){
+        return response()->json(new ParroquiaCollection($canton->parroquias), 200);
     }
 //    public function store(Request $request)
 //    {

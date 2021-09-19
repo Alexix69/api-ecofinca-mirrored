@@ -18,7 +18,7 @@ class ProvinciaController extends Controller
         return response()->json(new ProvinciaResource($provincia), 200) ;
     }
 
-    //LLAMADA A LOS CANTONES DE UNA PROVINCIA, DEFINIR ENDPOINT EN API
+    // RESPUESTA DE CANTONES POR PROVINCIA => FUNCIONA
     public function cantones(Provincia $provincia)
     {
         return response()->json(new CantonCollection($provincia->cantones), 200) ;

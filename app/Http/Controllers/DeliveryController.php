@@ -31,9 +31,9 @@ class DeliveryController extends Controller
         //muestra entregas de acuerdo al role y de acuerdo al id
         $this->authorize('viewAny', Delivery::class);
         $user = Auth::user();
-        if($user->role === 'ROLE_FARM'){
+        if ($user->role === 'ROLE_FARM') {
             return response()->json(new DeliveryCollection(Delivery::where('user_id', $user->id)->get()));
-        }else{
+        } else {
             return response()->json(new DeliveryCollection(Delivery::where('for_user_id', $user->id)->get()));
         }
     }
@@ -67,11 +67,10 @@ class DeliveryController extends Controller
         return response()->json($delivery, 201);
     }
 
-    //ESTE METODO DEBERÍA SER updateOfCollectionCenter()
-    public function update(Request $request, Delivery $delivery)
+    //ESTE METODO => FUNCIONA
+    public function updateByCollectionCenter(Request $request, Delivery $delivery)
     {
-//        $this->authorize('update', $delivery);
-
+        $this->authorize('updateByCollectionCenter', $delivery);
         $request->validate([
 //            'description' => 'required|max:500',
 //            'quantity' => 'required|integer',
@@ -81,9 +80,7 @@ class DeliveryController extends Controller
 //            'parroquia' => 'required',
 //            'for_user_id' => 'required',
             'state' => 'required'
-        ], self::$messages);
-
-
+        ]);
 
         //$delivery->update($request->all());
         //$delivery = Delivery::create($request->all());
@@ -94,8 +91,24 @@ class DeliveryController extends Controller
         $delivery->state = $request->state;
         $delivery->save();
         return response()->json($delivery, 200);
+    }
 
+    // PENDIENTE METODO QUE ACTUALIZA LA ENTREGA DESDE FINCA
+    public function updateByFarm(Request $request, Delivery $delivery)
+    {
+        $this->authorize('updateByFarm', $delivery);
+        $request->validate([
+            'for_user_id' => 'required',
+            'state' => 'required',
+//           'image' => 'required|image'
+        ]);
 
+//        $path = $request->image->store('public/deliveries'); // storeAs('',$request->user()->id.'_'.$delivery->id.'.'.$request->picture->extension());
+//        $delivery->image = $path;
+        $delivery->state = $request->state;
+        $delivery->for_user_id = $request->for_user_id;
+        $delivery->save();
+        return response()->json($delivery, 200);
     }
 
     //CREAR OTRO METODO PARA ACTUALIZAR OTRO CAMPO
