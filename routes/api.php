@@ -50,6 +50,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByFarm']);
     // ACTUALIZAR ENTREGA POR ACOPIO => funciona
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByCollectionCenter']);
+    // LOGOUT
+    Route::post('logout', [UserController::class, 'logout']);
+
 
     // pendiente de revisar
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
