@@ -102,30 +102,25 @@ class UserController extends Controller
         return response()->json(new UserResource($user), 200);
     }
 
-    public function logout()
-    {
-        try {
+    public function logout(){
+        try{
             JWTAuth::invalidate(JWTAuth::getToken());
 
-//            Cookie::queue(Cookie::forget('token'));
-//            $cookie = Cookie::forget('token');
-//            $cookie->withSameSite('None');
             return response()->json([
                 "status" => "success",
                 "message" => "User successfully logged out."
             ], 200)
                 ->withCookie('token', null,
-                config('jwt.ttl'),
-                '/',
-                null,
-                config('app.env') !== 'local',
-                true,
-                false,
-                config('app.env') !== 'local' ? 'None' : 'Lax'
-            );
-        } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            return response()->json(["message" => "No se pudo cerrar la sesión."], 500);
+                    config('jwt.ttl'),
+                    '/',
+                    null,
+                    config('app.env') !== 'local',
+                    true,
+                    false,
+                    config('app.env') !== 'local' ? 'None' : 'Lax'
+                );
+        }catch (JWTException $e){
+            return response()->json(["message" => "No se pudo cerrar sesión"], 500);
         }
     }
 
