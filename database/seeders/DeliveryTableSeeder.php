@@ -51,7 +51,7 @@ class DeliveryTableSeeder extends Seeder
                         'canton' => $canton->nombre,
                         'provincia' => $provincia->nombre,
                         'for_user_id' => $faker->numberBetween(11, 20),
-                        'state' => 'pendiente'
+//                        'state' => 'pendiente'
                     ]);
                 }
             }

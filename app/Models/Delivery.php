@@ -16,7 +16,7 @@ class Delivery extends Model
         'canton',
         'parroquia',
         'for_user_id',
-        'state'
+//        'state'
     ];
 
     public static function boot()
