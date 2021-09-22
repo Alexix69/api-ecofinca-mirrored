@@ -52,10 +52,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByCollectionCenter']);
     // LOGOUT
     Route::post('logout', [UserController::class, 'logout']);
-
+    // VER SESIÓN DE USUARIO
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
 
     // pendiente de revisar
-    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
