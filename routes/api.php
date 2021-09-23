@@ -40,6 +40,8 @@ Route::get('/parroquias', [ParroquiaController::class, 'index']);
 Route::get('/parroquias/{parroquia}', [ParroquiaController::class, 'show']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
+    //OBTENER INFORMACION DEL USUARIO CON LA SESION ACTIVA
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
     // VER ENTREGAS => funciona
     Route::get('deliveries', [DeliveryController::class, 'index']);
     // CREAR ENTREGAS => funciona
@@ -51,11 +53,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // ACTUALIZAR ENTREGA POR ACOPIO => funciona
     Route::put('deliveries/{delivery}', [DeliveryController::class, 'updateByCollectionCenter']);
     // LOGOUT
-    Route::post('logout', [UserController::class, 'logout']);
-    // VER SESIÓN DE USUARIO
-    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
+
+    Route::post('/logout', [UserController::class, 'logout']);
+
 
     // pendiente de revisar
+
+
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
