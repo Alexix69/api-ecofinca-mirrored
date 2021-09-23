@@ -39,6 +39,9 @@ Route::get('/cantones/{canton}/parroquias', [CantonController::class, 'parroquia
 Route::get('/parroquias', [ParroquiaController::class, 'index']);
 Route::get('/parroquias/{parroquia}', [ParroquiaController::class, 'show']);
 
+// RUTA PARA OBTENER USUARIOS DE CENTRO DE ACOPIO
+Route::get('/users', [UserController::class, 'indexCollectionCenters']);
+
 Route::group(['middleware' => ['jwt.verify']], function () {
     //OBTENER INFORMACION DEL USUARIO CON LA SESION ACTIVA
     Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
@@ -59,8 +62,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // pendiente de revisar
 
-
-    Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::get('users/{user}/image', [UserController::class, 'image']);

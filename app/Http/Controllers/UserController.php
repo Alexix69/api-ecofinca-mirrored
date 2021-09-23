@@ -124,9 +124,9 @@ class UserController extends Controller
         }
     }
 
-    public function index()
+    public function indexCollectionCenters()
     {
-        return response()->json(new UserCollection(User::all()), 200);
+        return response()->json(new UserCollection(User::where('role', 'ROLE_COLLECTION_CENTER')->get()));
     }
 
     public function show(User $user)
