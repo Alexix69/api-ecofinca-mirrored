@@ -56,7 +56,7 @@ class DeliveryController extends Controller
             'canton' => 'required',
             'parroquia' => 'required',
             'for_user_id' => 'required',
-            'state' => 'required'
+            //  'state' => 'required'
         ], self::$messages);
 
         $delivery = Delivery::create($request->all());

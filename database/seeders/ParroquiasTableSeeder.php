@@ -20,7 +20,7 @@ class ParroquiasTableSeeder extends Seeder
 
         for ($i = 0; $i < 225; $i++) {
             Parroquia::create([
-                'nombre' => $faker->sentence,
+                'nombre' => $faker->name,
                 'canton_id' => $faker->numberBetween(1, 100)
             ]);
         }
