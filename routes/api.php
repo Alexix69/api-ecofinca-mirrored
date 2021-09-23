@@ -19,36 +19,16 @@ use App\Http\Controllers\OwnerController;
 |
 */
 
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'authenticate']);
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-   return $request->user();
-});*/
+Route::group(['/middleware' => ['jwt.verify']], function () {
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
 
-// RUTAS CENTRO DE ACOPIO
-Route::get('/collection_center_plastics', [Collection_Center_PlasticController::class, 'index']);
-Route::get('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'show']);
-Route::post('/collection_center_plastics', [Collection_Center_PlasticController::class, 'store']);
-Route::put('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'update']);
-Route::delete('/collection_center_plastics/{collection_center_plastic}', [Collection_Center_PlasticController::class, 'delete']);
-
-//Route::get('/collection_center_plastic', function (){
-//   return Collection_Center_Plastic::all();
-//});
-//Route::get('/collection_center_plastic/{id}', function ($id){
-//    return Collection_Center_Plastic::find($id);
-//});
-
-
-//RUTAS PARA EL DUEÑO DE FINCA
-Route::get('/owners', [OwnerController::class, 'index']);
-Route::get('/owners/{owner}', [OwnerController::class, 'show']);
-Route::post('/owners', [OwnerController::class, 'store']);
-Route::put('/owners/{owner}', [OwnerController::class, 'update']);
-Route::delete('/owners/{owner}', [OwnerController::class, 'delete']);
-
-//RUTAS PARA LA ENTREGA
-Route::get('deliveries', [DeliveryController::class, 'index']);
-Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
-Route::post('deliveries', [DeliveryController::class, 'store']);
-Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
-Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
+    //RUTAS PARA LA ENTREGA
+    Route::get('deliveries', [DeliveryController::class, 'index']);
+    Route::get('deliveries/{delivery}', [DeliveryController::class, 'show']);
+    Route::post('deliveries', [DeliveryController::class, 'store']);
+    Route::put('deliveries/{delivery}', [DeliveryController::class, 'update']);
+    Route::delete('deliveries/{delivery}', [DeliveryController::class, 'delete']);
+});
