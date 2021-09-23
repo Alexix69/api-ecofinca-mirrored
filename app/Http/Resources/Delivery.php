@@ -17,6 +17,7 @@ class Delivery extends JsonResource
         return [
             'id' => $this->id,
             'created_at' => $this->created_at->format('d-m-Y'),
+            'description' => $this->description,
             'quantity' => $this->quantity,
             'state' => $this->state,
             'user_id' => $this->user_id,
