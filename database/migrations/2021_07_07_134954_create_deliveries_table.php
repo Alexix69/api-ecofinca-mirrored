@@ -18,8 +18,11 @@ class CreateDeliveriesTable extends Migration
             $table->text('description');
             $table->integer('quantity');
             $table->string('picture');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->float('latitude');
+            $table->float('longitude');
+            $table->string('state')->default('pendiente');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();
         });
     }

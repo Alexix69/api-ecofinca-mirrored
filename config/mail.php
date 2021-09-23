@@ -87,7 +87,10 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-
+    'to' => [
+        'address' => 'cdiaz_jl@hotmail.com.ar',
+        'name' => 'Carlos Diaz'
+    ],
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
