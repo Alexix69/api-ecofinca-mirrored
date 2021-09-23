@@ -30,6 +30,7 @@ class Delivery extends JsonResource
             'for_user_id' => $this->for_user_id,
             'delivery_creator' => $delivery_creator->organization_type,
             'delivery_manager' => $delivery_manager->organization_type,
+            'image' => $this->image
         ];
     }
 }
