@@ -14,13 +14,16 @@ class ProvinciasTableSeeder extends Seeder
      */
     public function run()
     {
-        Provincia :: truncate();
+        Provincia:: truncate();
 
-        $faker = \Faker\Factory::create();
+        $provincias = ["AZUAY", "BOLIVAR", "CAÑAR", "CARCHI", "COTOPAXI", "CHIMBORAZO",
+            "EL ORO", "ESMERALDAS", "GUAYAS", "IMBABURA", "LOJA", "LOS RIOS",
+            "MANABI", "MORONA SANTIAGO", "NAPO", "PASTAZA", "PICHINCHA", "TUNGURAHUA",
+            "ZAMORA CHINCHIPE", "GALAPAGOS", "SUCUMBIOS", "ORELLANA", "SANTO DOMINGO DE LOS TSACHILAS", "SANTA ELENA",];
 
         for ($i = 0; $i < 24; $i++) {
             Provincia::create([
-                'nombre' => $faker->name,
+                'nombre' => $provincias[$i],
             ]);
         }
     }
