@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Collection_Center_Plastic;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        Schema::disableForeignKeyConstraints();
+        $this->call(OwnerTableSeeder::class);
+        $this->call(Collection_Centers_PlasticsTableSeeder::class);
+        Schema::enableForeignKeyConstraints();
+
         // \App\Models\User::factory(10)->create();
+        
+
     }
 }
